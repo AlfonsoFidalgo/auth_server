@@ -8,7 +8,7 @@ const userSchema = new Schema({
 });
 
 //psw encriptation
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function(next) {
   const user = this;
 
   bcrypt.genSalt(10, (err, salt) => {
@@ -16,12 +16,12 @@ userSchema.pre('save', (next) => {
 
     bcrypt.hash(user.password, salt, null, (err, hash) => {
       if(err){ return next(err);}
-      console.log(hash)
+
       user.password = hash;
       next();
-    })
-  })
-})
+    });
+  });
+});
 
 //model class creation
 const ModelClass = mongoose.model('user', userSchema);
